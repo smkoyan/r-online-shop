@@ -12,6 +12,83 @@
 
 ## Usage
 
+> examples assume that you are in browser console 
+
+### Sign up user
+
+```javascript
+fetch('/api/signup', {
+    method: 'post',
+    
+    body: JSON.stringify({
+        username: 'test',
+        password: 'password'
+    }),
+    
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
+```
+
+### Sign in to get token
+
+```javascript
+fetch('/api/signin', {
+    method: 'post',
+    
+    body: JSON.stringify({
+        username: 'test',
+        password: 'password'
+    }),
+    
+    headers: {
+        'Content-Type': 'application/json',
+    },
+})
+```
+
+### Create Category
+
+```javascript
+fetch('/api/categories', {
+    method: 'post',
+    
+    body: JSON.stringify({
+        name: 'smarthphone',
+    }),
+    
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': '<jwt-token>',
+    },
+})
+```
+
+### Create Item
+
+```javascript
+fetch('/api/items', {
+    method: 'post',
+    
+    body: JSON.stringify({
+        name: 'Apple iPhone 13 pro',
+        description: 'apple iphone 13 pro 128 gb...',
+        price: 999.99,
+        availableCount: 14,
+        category: 1, // existing category id
+        tags: ['phone', 'new'],
+    }),
+    
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': '<jwt-token>',
+    },
+})
+```
+
+## Setup
+
 ### Prerequisites
 - Node.js (npm)
 - MySQL Server (tested on version 8)
