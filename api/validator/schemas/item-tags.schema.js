@@ -14,4 +14,12 @@ module.exports = {
 
         auto: true,
     },
+
+    'GET:/api/items/:id/tags': {
+        rules: {
+            params: Joi.object().keys({
+                id: Joi.number().required(),
+            }),
+        },
+    },
 };
