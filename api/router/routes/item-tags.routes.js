@@ -6,6 +6,8 @@ const Item = require('../../models/item.model');
 module.exports = router => {
     router
         .get('/items/:id/tags',
+            authenticate,
+            authorizeOwnerShipOf(Item, ['id']),
             controller.index,
         )
         .post('/items/:id/tags',
