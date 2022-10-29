@@ -8,10 +8,14 @@ const Tag = require('../models/tag.model');
 
 // retrieve tags of particular item
 // can also be done in get endpoint of item itself
+// as nested field of item response body
 exports.index = async ctx => {
-    const itemId = ctx.params.id;
+    const item = ctx.state.instance;
 
-
+    ctx.body = await item.getTags({
+        attributes: ['id', 'name']
+    });
+    ctx.status = 200;
 };
 
 // add new tags to item
