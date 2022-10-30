@@ -206,19 +206,20 @@ exports.destroy = async ctx => {
     ctx.status = 204;
 };
 
-
+// endpoint for multipart/form-data request
+// testing purposes
 exports.create = async ctx => {
     ctx.set('Content-Type', 'text/html');
     ctx.body = `
-<!doctype html>
-<html>
-  <body>
-    <form action="/api/items/1/images" enctype="multipart/form-data" method="post">
-    <input type="file" name="uploads" multiple="multiple"><br>
-    <input type="text" name="text" placeholder="text"><br>
-    <button type="submit">Upload</button>
-    </form>
-  </body>
-</html>`;
-
+        <!doctype html>
+        <html>
+          <body>
+            <form action="/api/items/1/images" enctype="multipart/form-data" method="post">
+            <input type="file" name="uploads" multiple="multiple"><br>
+            <input type="text" name="text" placeholder="text"><br>
+            <button type="submit">Upload</button>
+            </form>
+          </body>
+        </html>
+    `;
 };
