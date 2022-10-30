@@ -1,6 +1,4 @@
 const User = require('../models/user.model');
-require('../models/item_category.model');
-
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
