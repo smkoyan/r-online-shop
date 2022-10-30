@@ -5,6 +5,10 @@ const { USER_TYPES } = require('../../enums');
 
 module.exports = router => {
     router
+        .get('/categories',
+            authenticate,
+            controller.index,
+        )
         .post('/categories',
             authenticate,
             allowUserOfType(USER_TYPES.SELLER),
