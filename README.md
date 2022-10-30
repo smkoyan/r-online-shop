@@ -22,7 +22,9 @@ fetch('/api/signup', {
     
     body: JSON.stringify({
         username: 'test',
-        password: 'password'
+        password: 'password',
+        // optional oneOf('seller', 'buyer') default is buyer
+        type: 'seller',
     }),
     
     headers: {
