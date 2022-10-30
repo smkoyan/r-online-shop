@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { USER_TYPES } = require('../../enums');
 
 module.exports = {
     'POST:/api/signup': {
@@ -8,7 +9,7 @@ module.exports = {
 
                 password: Joi.string().required(),
 
-                type: Joi.string().valid('seller', 'buyer'),
+                type: Joi.string().valid(...Object.values(USER_TYPES)),
 
                 // passwordConfirmation: Joi.any().equal(Joi.ref('password')).required(),
             }),
