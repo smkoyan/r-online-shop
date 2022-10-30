@@ -3,6 +3,7 @@ const Tag = require('../models/tag.model');
 const Item = require('../models/item.model');
 const Image = require('../models/image.model');
 const itemManager = require('../managers/item.manager');
+const categoryManager = require('../managers/category.manager');
 const { unlink } = require('fs/promises');
 
 exports.store = async ctx => {
@@ -31,7 +32,12 @@ exports.store = async ctx => {
             UserId: user.id,
         });
 
-        await item.addCategory(category);
+        // also includes provided category
+        // this method can be used solely to check category existence
+        // and also to fetch whole hierarchy of categories
+        const categories = await categoryManager.getParentCategories(category.id);
+
+        await item.addCategories(categories);
 
         let { tags } = itemData;
 
