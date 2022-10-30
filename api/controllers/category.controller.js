@@ -32,8 +32,9 @@ exports.store = async ctx => {
 };
 
 
-exports.show = async ctx => {
-
+exports.index = async ctx => {
+    ctx.body = await categoryManager.getCategoriesTree();
+    ctx.status = 200;
 };
 
 
