@@ -24,3 +24,5 @@ const ItemCategories = sequelize.define('ItemCategories', {
 
 Item.belongsToMany(Category, { through: ItemCategories });
 Category.belongsToMany(Item, { through: ItemCategories });
+
+module.exports = ItemCategories;
