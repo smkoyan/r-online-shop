@@ -39,7 +39,7 @@ module.exports = {
                 availableCount: Joi.number().positive(),
 
                 // id of category
-                // category: Joi.number().required(),
+                category: Joi.number(),
             }),
         },
 
