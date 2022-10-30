@@ -8,9 +8,9 @@ exports.store = async ctx => {
         let categoryId;
 
         if (!parentId) {
-            categoryId = categoryManager.storeCategory(name);
+            categoryId = await categoryManager.storeCategory(name);
         } else {
-            categoryId = categoryManager.storeSubcategory(name, parentId);
+            categoryId = await categoryManager.storeSubcategory(name, parentId);
 
             if (!categoryId) {
                 ctx.status = 400;
