@@ -47,4 +47,74 @@ exports.getParentCategories = async id => {
     });
 
     return categories.length ? categories : null;
+};
+
+exports.getCategoriesTree = async () => {
+    /*(select id, name, parentId, 1 as depth
+    from Categories
+    where parentId is null
+    limit 1)*/ // can be used for pagination
+
+
+    const query = `
+            with recursive child_categories(id, name, parentId, depth) as (
+                select id, name, parentId, 1 as depth
+                from Categories
+                where parentId is null
+                union all
+                select Categories.id, Categories.name, Categories.parentId, depth + 1
+                from Categories
+                join child_categories on child_categories.id = Categories.parentId
+            )
+            select id, name, parentId, depth
+            from child_categories
+    `;
+
+    const categories = await sequelize.query(query, {
+        type: QueryTypes.SELECT,
+        raw: true,
+    });
+
+    return buildTree(categories);
+};
+
+const buildTree = categories => {
+    const tree = {};
+
+    // build the first level
+    categories.filter(c => c.depth === 1)
+        .forEach(category => {
+            tree[category.id] = {
+                ...category,
+                children: [],
+            };
+        });
+
+
+    // fill in children level by level
+    let parentCategories = tree;
+    let depth = 2;
+    while (true) {
+        // this can be optimised by creating a map of all levels
+        // by just one linear iteration
+        const categoriesOnDepth = categories.filter(c => c.depth === depth);
+
+        if (categoriesOnDepth.length === 0) {
+            break;
+        }
+
+        const tmp = {};
+        categoriesOnDepth.forEach(category => {
+            const child = {
+                ...category,
+                children: [],
+            };
+            parentCategories[category.parentId].children.push(child);
+            tmp[category.id] = child;
+        });
+        parentCategories = tmp;
+        depth++;
+    }
+
+    return tree;
 }
