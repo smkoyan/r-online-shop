@@ -2,6 +2,7 @@ const Category = require('../models/category.model');
 const Tag = require('../models/tag.model');
 const Item = require('../models/item.model');
 const Image = require('../models/image.model');
+const ItemCategories = require('../models/item_category.model');
 const itemManager = require('../managers/item.manager');
 const categoryManager = require('../managers/category.manager');
 const { unlink } = require('fs/promises');
@@ -64,6 +65,26 @@ exports.update = async ctx => {
     // fetches item from database and stores it in request context
     // to narrow down database usage
     const item = ctx.state.instance;
+
+    if (updatedFields.category) {
+        const categories = await categoryManager.getParentCategories(updatedFields.category);
+
+        if (categories === null) {
+            ctx.status = 400;
+            ctx.body = {
+                message: 'Please provide correct category',
+            };
+            return;
+        }
+
+        await ItemCategories.destroy({
+            where: {
+                ItemId: item.id,
+            },
+        });
+        await item.addCategories(categories);
+    }
+
 
     // as the fields are already validated in joi validator middleware
     // there is no need to list fields one by one to prevent excessive fields
